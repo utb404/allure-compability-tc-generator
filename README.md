@@ -1,0 +1,1 @@
+# allure-compability-tc-generator
