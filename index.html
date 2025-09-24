@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Менеджер тест-кейсов с генерацией Allure</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Менеджер тест-кейсов с генерацией Allure</h1>
+            <p>Создавайте тест-кейсы, управляйте шагами и генерируйте JSON файлы для Allure Report</p>
+        </header>
+
+        <main class="main">
+            <section class="create-section">
+                <div class="card">
+                    <div class="card__header">
+                        <h2>Создать новый тест-кейс</h2>
+                    </div>
+                    <div class="card__body">
+                        <form id="testCaseForm" class="test-case-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="testCaseName" class="form-label">Название тест-кейса *</label>
+                                    <input type="text" id="testCaseName" class="form-control" required>
+                                    <div class="error-message" id="nameError"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="testCaseDescription" class="form-label">Описание</label>
+                                    <textarea id="testCaseDescription" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="epic" class="form-label">Epic</label>
+                                    <input type="text" id="epic" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="feature" class="form-label">Feature</label>
+                                    <input type="text" id="feature" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="story" class="form-label">Story</label>
+                                    <input type="text" id="story" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="severity" class="form-label">Критичность</label>
+                                    <select id="severity" class="form-control">
+                                        <option value="blocker">BLOCKER</option>
+                                        <option value="critical">CRITICAL</option>
+                                        <option value="normal" selected>NORMAL</option>
+                                        <option value="minor">MINOR</option>
+                                        <option value="trivial">TRIVIAL</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="owner" class="form-label">Владелец</label>
+                                    <input type="text" id="owner" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="steps-section">
+                                <h3>Шаги тест-кейса</h3>
+                                <div id="stepsContainer" class="steps-container">
+                                    <!-- Шаги будут добавлены динамически -->
+                                </div>
+                                <button type="button" id="addStepBtn" class="btn btn--secondary">
+                                    <span>+ Добавить шаг</span>
+                                </button>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn--primary">
+                                    <span id="submitText">Создать тест-кейс</span>
+                                </button>
+                                <button type="button" id="cancelBtn" class="btn btn--outline hidden">
+                                    Отмена
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <section class="test-cases-section">
+                <div class="section-header">
+                    <h2>Созданные тест-кейсы</h2>
+                    <div class="actions">
+                        <button id="generateBtn" class="btn btn--primary" disabled>
+                            Сгенерировать Allure JSON
+                        </button>
+                        <button id="downloadBtn" class="btn btn--secondary hidden">
+                            Скачать ZIP
+                        </button>
+                    </div>
+                </div>
+
+                <div id="testCasesList" class="test-cases-list">
+                    <div class="empty-state">
+                        <p>Пока нет созданных тест-кейсов</p>
+                        <p>Создайте первый тест-кейс, используя форму выше</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="confirmModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Подтверждение удаления</h3>
+            <p>Вы уверены, что хотите удалить этот тест-кейс?</p>
+            <div class="modal-actions">
+                <button id="confirmDelete" class="btn btn--primary">Удалить</button>
+                <button id="cancelDelete" class="btn btn--outline">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast hidden">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
