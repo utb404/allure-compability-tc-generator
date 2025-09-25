@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Test Case Manager with JSON Storage & Allure Generation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>Advanced Test Case Manager with JSON Storage & Allure Generation</h1>
+            <p>Создавайте, управляйте и экспортируйте тест-кейсы с полной поддержкой Allure TestOPS</p>
+        </header>
+
+        <nav class="app-nav">
+            <button class="nav-btn active" data-section="create">Create Test Case</button>
+            <button class="nav-btn" data-section="manage">Manage Test Cases</button>
+            <button class="nav-btn" data-section="import-export">Import/Export</button>
+        </nav>
+
+        <main class="app-main">
+            <!-- Create Test Case Section -->
+            <section id="create-section" class="section active">
+                <div class="card">
+                    <div class="card__header">
+                        <h2>Создать новый тест-кейс</h2>
+                    </div>
+                    <div class="card__body">
+                        <form id="testCaseForm" class="test-case-form">
+                            <!-- Basic Fields -->
+                            <div class="form-section">
+                                <h3>Основные поля</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="testCaseName" class="form-label">Test Case Name *</label>
+                                        <input type="text" id="testCaseName" class="form-control" required>
+                                        <div class="error-message" id="nameError"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="testCaseDescription" class="form-label">Description</label>
+                                        <textarea id="testCaseDescription" class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="preconditions" class="form-label">Preconditions</label>
+                                        <textarea id="preconditions" class="form-control" rows="2"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="expectedResult" class="form-label">Expected Result</label>
+                                        <textarea id="expectedResult" class="form-control" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Metadata Labels -->
+                            <div class="form-section">
+                                <h3>Метаданные (Labels для Allure)</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="epic" class="form-label">Epic</label>
+                                        <input type="text" id="epic" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="feature" class="form-label">Feature</label>
+                                        <input type="text" id="feature" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="story" class="form-label">Story</label>
+                                        <input type="text" id="story" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="component" class="form-label">Component/Microservice</label>
+                                        <input type="text" id="component" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="testLayer" class="form-label">Test Layer</label>
+                                        <select id="testLayer" class="form-control">
+                                            <option value="">Выберите слой</option>
+                                            <option value="UI">UI</option>
+                                            <option value="API">API</option>
+                                            <option value="Integration">Integration</option>
+                                            <option value="Unit">Unit</option>
+                                            <option value="E2E">E2E</option>
+                                            <option value="Mobile">Mobile</option>
+                                            <option value="Performance">Performance</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="severity" class="form-label">Severity</label>
+                                        <select id="severity" class="form-control">
+                                            <option value="BLOCKER">BLOCKER</option>
+                                            <option value="CRITICAL">CRITICAL</option>
+                                            <option value="NORMAL" selected>NORMAL</option>
+                                            <option value="MINOR">MINOR</option>
+                                            <option value="TRIVIAL">TRIVIAL</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="priority" class="form-label">Priority</label>
+                                        <select id="priority" class="form-control">
+                                            <option value="HIGHEST">HIGHEST</option>
+                                            <option value="HIGH">HIGH</option>
+                                            <option value="MEDIUM" selected>MEDIUM</option>
+                                            <option value="LOW">LOW</option>
+                                            <option value="LOWEST">LOWEST</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="environment" class="form-label">Environment</label>
+                                        <input type="text" id="environment" class="form-control" placeholder="staging, prod, dev">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="browser" class="form-label">Browser</label>
+                                        <input type="text" id="browser" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Members -->
+                            <div class="form-section">
+                                <h3>Участники (Members)</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="owner" class="form-label">Owner</label>
+                                        <input type="text" id="owner" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="author" class="form-label">Author</label>
+                                        <input type="text" id="author" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reviewer" class="form-label">Reviewer</label>
+                                        <input type="text" id="reviewer" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- External Links -->
+                            <div class="form-section">
+                                <h3>Связи с внешними системами</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="testCaseId" class="form-label">Test Case ID (внешний ID)</label>
+                                        <input type="text" id="testCaseId" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="issueLinks" class="form-label">Issue Links (через запятую)</label>
+                                        <input type="text" id="issueLinks" class="form-control" placeholder="http://jira/issue-1, http://jira/issue-2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="testCaseLinks" class="form-label">Test Case Links (через запятую)</label>
+                                        <input type="text" id="testCaseLinks" class="form-control" placeholder="http://tms/tc-1, http://tms/tc-2">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Fields -->
+                            <div class="form-section">
+                                <h3>Дополнительные поля</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="tags" class="form-label">Tags (через запятую)</label>
+                                        <input type="text" id="tags" class="form-control" placeholder="smoke, regression, critical">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Manual/Automated</label>
+                                        <div class="radio-group">
+                                            <label class="radio-option">
+                                                <input type="radio" name="testType" value="manual" checked>
+                                                <span>Manual</span>
+                                            </label>
+                                            <label class="radio-option">
+                                                <input type="radio" name="testType" value="automated">
+                                                <span>Automated</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Test Steps -->
+                            <div class="form-section">
+                                <h3>Шаги тест-кейса</h3>
+                                <div id="stepsContainer" class="steps-container">
+                                    <!-- Steps will be added dynamically -->
+                                </div>
+                                <button type="button" id="addStepBtn" class="btn btn--secondary">
+                                    <span>+ Добавить шаг</span>
+                                </button>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn--primary">
+                                    <span id="submitText">Создать тест-кейс</span>
+                                </button>
+                                <button type="button" id="cancelBtn" class="btn btn--outline hidden">
+                                    Отмена
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Test Cases Section -->
+            <section id="manage-section" class="section">
+                <div class="section-header">
+                    <h2>Управление тест-кейсами</h2>
+                    <div class="search-filters">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Поиск по названию, описанию, тегам...">
+                        <select id="statusFilter" class="form-control">
+                            <option value="">Все статусы</option>
+                            <option value="passed">PASSED</option>
+                            <option value="failed">FAILED</option>
+                            <option value="mixed">MIXED</option>
+                        </select>
+                        <select id="severityFilter" class="form-control">
+                            <option value="">Все уровни критичности</option>
+                            <option value="BLOCKER">BLOCKER</option>
+                            <option value="CRITICAL">CRITICAL</option>
+                            <option value="NORMAL">NORMAL</option>
+                            <option value="MINOR">MINOR</option>
+                            <option value="TRIVIAL">TRIVIAL</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="testCasesList" class="test-cases-list">
+                    <div class="empty-state">
+                        <p>Пока нет созданных тест-кейсов</p>
+                        <p>Создайте первый тест-кейс в разделе "Create Test Case"</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Import/Export Section -->
+            <section id="import-export-section" class="section">
+                <div class="import-export-container">
+                    <div class="card">
+                        <div class="card__header">
+                            <h2>Экспорт тест-кейсов</h2>
+                        </div>
+                        <div class="card__body">
+                            <div class="export-actions">
+                                <button id="exportAllBtn" class="btn btn--primary" disabled>
+                                    Export All Test Cases (ZIP)
+                                </button>
+                                <button id="generateAllureBtn" class="btn btn--secondary" disabled>
+                                    Generate Allure JSON (ZIP)
+                                </button>
+                                <button id="createBackupBtn" class="btn btn--outline" disabled>
+                                    Create Backup
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h2>Импорт тест-кейсов</h2>
+                        </div>
+                        <div class="card__body">
+                            <div class="import-actions">
+                                <div class="file-input-container">
+                                    <input type="file" id="importFileInput" accept=".json,.zip" class="file-input">
+                                    <label for="importFileInput" class="file-input-label btn btn--outline">
+                                        Выберите файл (.json или .zip)
+                                    </label>
+                                </div>
+                                <button id="importBtn" class="btn btn--primary" disabled>
+                                    Import Test Cases
+                                </button>
+                                <div class="import-options">
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" id="overwriteExisting">
+                                        <span>Перезаписать существующие тест-кейсы</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal Windows -->
+    <div id="confirmModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Подтверждение удаления</h3>
+            <p>Вы уверены, что хотите удалить этот тест-кейс?</p>
+            <div class="modal-actions">
+                <button id="confirmDelete" class="btn btn--primary">Удалить</button>
+                <button id="cancelDelete" class="btn btn--outline">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cloneModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Клонировать тест-кейс</h3>
+            <p>Введите название для нового тест-кейса:</p>
+            <input type="text" id="cloneName" class="form-control" placeholder="Название клонированного тест-кейса">
+            <div class="modal-actions">
+                <button id="confirmClone" class="btn btn--primary">Клонировать</button>
+                <button id="cancelClone" class="btn btn--outline">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <span id="toastMessage"></span>
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progressBar" class="progress-bar hidden">
+        <div class="progress-fill"></div>
+        <span class="progress-text">Обработка...</span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
