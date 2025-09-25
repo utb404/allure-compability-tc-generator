@@ -738,47 +738,97 @@ select.form-control {
 }
 
 /* END PERPLEXITY DESIGN SYSTEM */
-/* Основные стили для приложения */
-.header {
+/* Application Layout */
+.app-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-20);
+}
+
+.app-header {
   text-align: center;
   margin-bottom: var(--space-32);
-  padding: var(--space-24) 0;
+  padding: var(--space-32) 0;
   background: var(--color-bg-1);
   border-radius: var(--radius-lg);
 }
 
-.header h1 {
+.app-header h1 {
   margin-bottom: var(--space-8);
   color: var(--color-text);
 }
 
-.header p {
+.app-header p {
   color: var(--color-text-secondary);
   font-size: var(--font-size-lg);
   margin: 0;
 }
 
-.main {
+/* Navigation */
+.app-nav {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-32);
+  gap: var(--space-4);
+  margin-bottom: var(--space-32);
+  background: var(--color-surface);
+  padding: var(--space-8);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
 }
 
-/* Секция создания тест-кейса */
-.create-section {
-  width: 100%;
+.nav-btn {
+  flex: 1;
+  padding: var(--space-12) var(--space-20);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
 }
 
-.test-case-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-20);
+.nav-btn:hover {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.nav-btn.active {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+/* Sections */
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+/* Form Sections */
+.form-section {
+  margin-bottom: var(--space-24);
+  padding-bottom: var(--space-20);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.form-section:last-child {
+  border-bottom: none;
+}
+
+.form-section h3 {
+  margin-bottom: var(--space-16);
+  color: var(--color-text);
+  font-size: var(--font-size-xl);
 }
 
 .form-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--space-16);
+  margin-bottom: var(--space-16);
 }
 
 .form-group {
@@ -793,22 +843,34 @@ select.form-control {
   min-height: 20px;
 }
 
-/* Секция шагов */
-.steps-section {
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-20);
+/* Radio and Checkbox Groups */
+.radio-group {
+  display: flex;
+  gap: var(--space-16);
+  margin-top: var(--space-8);
 }
 
-.steps-section h3 {
-  margin-bottom: var(--space-16);
-  color: var(--color-text);
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  cursor: pointer;
 }
 
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  cursor: pointer;
+  margin-top: var(--space-12);
+}
+
+/* Steps Section */
 .steps-container {
   display: flex;
   flex-direction: column;
-  gap: var(--space-12);
-  margin-bottom: var(--space-16);
+  gap: var(--space-16);
+  margin-bottom: var(--space-20);
 }
 
 .step-item {
@@ -816,9 +878,6 @@ select.form-control {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-base);
   padding: var(--space-16);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-12);
   transition: all var(--duration-normal) var(--ease-standard);
 }
 
@@ -828,9 +887,9 @@ select.form-control {
 
 .step-header {
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: center;
-  gap: var(--space-8);
+  margin-bottom: var(--space-16);
 }
 
 .step-number {
@@ -848,26 +907,20 @@ select.form-control {
 }
 
 .step-content {
-  flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-12);
-}
-
-.step-actions {
-  display: flex;
-  gap: var(--space-8);
+  gap: var(--space-16);
+  margin-bottom: var(--space-16);
 }
 
 .step-status {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
+  grid-column: 1 / -1;
 }
 
-.status-options {
+.step-status-options {
   display: flex;
-  gap: var(--space-12);
+  gap: var(--space-16);
+  margin-top: var(--space-8);
 }
 
 .status-option {
@@ -876,29 +929,22 @@ select.form-control {
   gap: var(--space-4);
 }
 
-.status-option input[type="radio"] {
-  margin: 0;
-}
-
 .status-label {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
 }
 
-.status-label.passed {
-  color: var(--color-success);
-}
+.status-label.passed { color: var(--color-success); }
+.status-label.failed { color: var(--color-error); }
+.status-label.skipped { color: var(--color-text-secondary); }
 
-.status-label.failed {
-  color: var(--color-error);
-}
-
-.status-label.skipped {
-  color: var(--color-text-secondary);
+.step-conditional {
+  grid-column: 1 / -1;
+  margin-top: var(--space-8);
 }
 
 .remove-step-btn {
-  padding: var(--space-4);
+  padding: var(--space-4) var(--space-8);
   background: var(--color-error);
   color: white;
   border: none;
@@ -912,7 +958,7 @@ select.form-control {
   background: var(--color-red-400);
 }
 
-/* Действия формы */
+/* Form Actions */
 .form-actions {
   display: flex;
   gap: var(--space-12);
@@ -920,25 +966,27 @@ select.form-control {
   border-top: 1px solid var(--color-border);
 }
 
-/* Секция тест-кейсов */
+/* Manage Section */
 .section-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: var(--space-24);
-  flex-wrap: wrap;
   gap: var(--space-16);
+  flex-wrap: wrap;
 }
 
-.section-header h2 {
-  margin: 0;
-}
-
-.actions {
+.search-filters {
   display: flex;
   gap: var(--space-12);
+  flex-wrap: wrap;
 }
 
+.search-filters .form-control {
+  min-width: 200px;
+}
+
+/* Test Cases List */
 .test-cases-list {
   display: flex;
   flex-direction: column;
@@ -954,15 +1002,6 @@ select.form-control {
   border: 2px dashed var(--color-border);
 }
 
-.empty-state p {
-  margin-bottom: var(--space-8);
-}
-
-.empty-state p:last-child {
-  margin-bottom: 0;
-}
-
-/* Карточки тест-кейсов */
 .test-case-card {
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-lg);
@@ -1022,17 +1061,9 @@ select.form-control {
   flex-shrink: 0;
 }
 
-.status-indicator.passed {
-  background: var(--color-success);
-}
-
-.status-indicator.failed {
-  background: var(--color-error);
-}
-
-.status-indicator.mixed {
-  background: var(--color-warning);
-}
+.status-indicator.passed { background: var(--color-success); }
+.status-indicator.failed { background: var(--color-error); }
+.status-indicator.mixed { background: var(--color-warning); }
 
 .expand-icon {
   transition: transform var(--duration-normal) var(--ease-standard);
@@ -1050,7 +1081,7 @@ select.form-control {
 }
 
 .test-case-content.expanded {
-  max-height: 1000px;
+  max-height: 2000px;
 }
 
 .test-case-body {
@@ -1086,11 +1117,6 @@ select.form-control {
   margin-bottom: var(--space-16);
 }
 
-.test-case-steps h4 {
-  margin-bottom: var(--space-12);
-  color: var(--color-text);
-}
-
 .steps-list {
   display: flex;
   flex-direction: column;
@@ -1099,25 +1125,17 @@ select.form-control {
 
 .step-display {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-12);
-  padding: var(--space-8);
+  padding: var(--space-12);
   background: var(--color-bg-5);
   border-radius: var(--radius-sm);
   border-left: 3px solid transparent;
 }
 
-.step-display.passed {
-  border-left-color: var(--color-success);
-}
-
-.step-display.failed {
-  border-left-color: var(--color-error);
-}
-
-.step-display.skipped {
-  border-left-color: var(--color-text-secondary);
-}
+.step-display.passed { border-left-color: var(--color-success); }
+.step-display.failed { border-left-color: var(--color-error); }
+.step-display.skipped { border-left-color: var(--color-text-secondary); }
 
 .step-display-number {
   width: 20px;
@@ -1132,17 +1150,9 @@ select.form-control {
   flex-shrink: 0;
 }
 
-.step-display.passed .step-display-number {
-  background: var(--color-success);
-}
-
-.step-display.failed .step-display-number {
-  background: var(--color-error);
-}
-
-.step-display.skipped .step-display-number {
-  background: var(--color-text-secondary);
-}
+.step-display.passed .step-display-number { background: var(--color-success); }
+.step-display.failed .step-display-number { background: var(--color-error); }
+.step-display.skipped .step-display-number { background: var(--color-text-secondary); }
 
 .step-display-content {
   flex: 1;
@@ -1150,12 +1160,29 @@ select.form-control {
 
 .step-display-name {
   font-weight: var(--font-weight-medium);
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-4);
 }
 
 .step-display-description {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.step-display-details {
+  font-size: var(--font-size-sm);
+  padding: var(--space-8);
+  background: var(--color-bg-6);
+  border-radius: var(--radius-sm);
+  margin-top: var(--space-8);
+}
+
+.step-display-details.failed {
+  border-left: 3px solid var(--color-error);
+}
+
+.step-display-details.skipped {
+  border-left: 3px solid var(--color-text-secondary);
 }
 
 .test-case-actions {
@@ -1167,7 +1194,41 @@ select.form-control {
   background: var(--color-bg-6);
 }
 
-/* Модальное окно */
+/* Import/Export Section */
+.import-export-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-24);
+}
+
+.export-actions, .import-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.file-input-container {
+  position: relative;
+}
+
+.file-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.file-input-label {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.import-options {
+  width: 100%;
+  margin-top: var(--space-12);
+}
+
+/* Modal Windows */
 .modal {
   position: fixed;
   top: 0;
@@ -1210,7 +1271,7 @@ select.form-control {
 }
 
 .modal-content p {
-  margin-bottom: var(--space-20);
+  margin-bottom: var(--space-16);
   color: var(--color-text-secondary);
 }
 
@@ -1218,9 +1279,10 @@ select.form-control {
   display: flex;
   justify-content: flex-end;
   gap: var(--space-12);
+  margin-top: var(--space-20);
 }
 
-/* Тост уведомления */
+/* Toast Notifications */
 .toast {
   position: fixed;
   top: var(--space-20);
@@ -1234,6 +1296,7 @@ select.form-control {
   transform: translateX(400px);
   transition: transform var(--duration-normal) var(--ease-standard);
   font-weight: var(--font-weight-medium);
+  max-width: 300px;
 }
 
 .toast.visible {
@@ -1244,10 +1307,62 @@ select.form-control {
   background: var(--color-error);
 }
 
-/* Отзывчивость */
+.toast.warning {
+  background: var(--color-warning);
+}
+
+/* Progress Bar */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--color-secondary);
+  z-index: 1002;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+.progress-bar.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  width: 0%;
+  transition: width var(--duration-normal) var(--ease-standard);
+}
+
+.progress-text {
+  position: absolute;
+  top: 10px;
+  right: var(--space-20);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  background: var(--color-surface);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .import-export-container {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
-  .container {
+  .app-container {
     padding: var(--space-16) var(--space-12);
+  }
+  
+  .app-nav {
+    flex-direction: column;
   }
   
   .form-row {
@@ -1259,9 +1374,18 @@ select.form-control {
     align-items: flex-start;
   }
   
-  .actions {
+  .search-filters {
     width: 100%;
-    justify-content: flex-start;
+  }
+  
+  .search-filters .form-control {
+    flex: 1;
+    min-width: auto;
+  }
+  
+  .export-actions, .import-actions {
+    flex-direction: column;
+    align-items: stretch;
   }
   
   .test-case-header {
@@ -1279,7 +1403,7 @@ select.form-control {
     grid-template-columns: 1fr;
   }
   
-  .status-options {
+  .step-status-options {
     flex-direction: column;
     gap: var(--space-8);
   }
@@ -1290,5 +1414,10 @@ select.form-control {
   
   .test-case-actions {
     justify-content: center;
+  }
+  
+  .radio-group {
+    flex-direction: column;
+    gap: var(--space-8);
   }
 }
